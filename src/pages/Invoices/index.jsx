@@ -3,7 +3,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { getInvoices } from '../../mock/data';
 import { useParams } from 'react-router-dom';
 import { getInvoice } from '../../mock/data';
-import './index.css';
+import './index.less';
 const Invoices = () => {
 	let invoices = getInvoices();
 	return (
@@ -14,6 +14,7 @@ const Invoices = () => {
 					padding: '1rem',
 				}}
 			>
+				<div className="red">hahha</div>
 				{invoices.map(invoice => (
 					<NavLink
 						style={({ isActive }) => {
