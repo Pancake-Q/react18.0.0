@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 import { getInvoices } from '../../mock/data';
 import { useParams } from 'react-router-dom';
 import { getInvoice } from '../../mock/data';
+import './index.css';
 const Invoices = () => {
 	let invoices = getInvoices();
 	return (
@@ -14,13 +15,19 @@ const Invoices = () => {
 				}}
 			>
 				{invoices.map(invoice => (
-					<Link
-						style={{ display: 'block', margin: '1rem 0' }}
+					<NavLink
+						style={({ isActive }) => {
+							return {
+								display: 'block',
+								margin: '1rem 0',
+								color: isActive ? 'red' : '',
+							};
+						}}
 						to={`${invoice.number}`}
 						key={invoice.number}
 					>
 						{invoice.name}
-					</Link>
+					</NavLink>
 				))}
 			</nav>
 			<Outlet />
@@ -31,12 +38,13 @@ const Invoices = () => {
 function Invoice() {
 	let params = useParams();
 	let invoice = getInvoice(parseInt(params.invoiceId, 10));
-	console.log(invoice)
+	console.log(invoice);
 	return (
 		<main style={{ padding: '1rem' }}>
 			<h2>Total Due: {invoice?.amount}</h2>
 			<p>
-				{invoice?.name}: {invoice?.number}{undefined}
+				{invoice?.name}: {invoice?.number}
+				{undefined}
 			</p>
 			<p>Due Date: {invoice?.due}</p>
 		</main>
