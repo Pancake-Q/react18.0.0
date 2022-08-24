@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { NavLink, Outlet, useSearchParams } from 'react-router-dom';
-import { getInvoices } from '../../mock/data';
-import { useParams } from 'react-router-dom';
-import { getInvoice } from '../../mock/data';
+import React, { useEffect } from 'react';
+import {
+	NavLink,
+	Outlet,
+	useSearchParams,
+	useLocation,
+	useParams,
+	useNavigate,
+} from 'react-router-dom';
+import { getInvoices, getInvoice, deleteInvoice } from '../../mock/data';
 import './index.less';
 const Invoices = () => {
 	const invoices = getInvoices();
@@ -15,6 +20,12 @@ const Invoices = () => {
 			setSearchParams({});
 		}
 	};
+	const QueryNavLink = ({ to, ...props }) => {
+		const location = useLocation();
+		console.log(location);
+		return <NavLink to={to + location.search} {...props} />;
+	};
+
 	useEffect(() => {
 		console.log(searchParams.keys('filter'), '=====useEffect=====1');
 	}, [searchParams]);
@@ -38,7 +49,7 @@ const Invoices = () => {
 						return name.startsWith(filter.toLowerCase());
 					})
 					.map(invoice => (
-						<NavLink
+						<QueryNavLink
 							style={({ isActive }) => {
 								return {
 									display: 'block',
@@ -50,7 +61,7 @@ const Invoices = () => {
 							key={invoice.number}
 						>
 							{invoice.name}
-						</NavLink>
+						</QueryNavLink>
 					))}
 			</nav>
 			<Outlet />
@@ -59,9 +70,10 @@ const Invoices = () => {
 };
 
 function Invoice() {
-	let params = useParams();
-	let invoice = getInvoice(parseInt(params.invoiceId, 10));
-	console.log(invoice);
+	let navigate = useNavigate();
+	let location = useLocation();
+	let { invoiceId } = useParams();
+	let invoice = getInvoice(parseInt(invoiceId, 10));
 	return (
 		<main style={{ padding: '1rem' }}>
 			<h2>Total Due: {invoice?.amount}</h2>
@@ -70,6 +82,16 @@ function Invoice() {
 				{undefined}
 			</p>
 			<p>Due Date: {invoice?.due}</p>
+			<p>
+				<button
+					onClick={() => {
+						deleteInvoice(invoice.number);
+						navigate('/auth/invoices' + location.search);
+					}}
+				>
+					Delete
+				</button>
+			</p>
 		</main>
 	);
 }
