@@ -1,11 +1,23 @@
-import React from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { NavLink, Outlet, useSearchParams } from 'react-router-dom';
 import { getInvoices } from '../../mock/data';
 import { useParams } from 'react-router-dom';
 import { getInvoice } from '../../mock/data';
 import './index.less';
 const Invoices = () => {
-	let invoices = getInvoices();
+	const invoices = getInvoices();
+	const [searchParams, setSearchParams] = useSearchParams();
+	const changeHandler = event => {
+		let filter = event.target.value;
+		if (filter) {
+			setSearchParams({ filter });
+		} else {
+			setSearchParams({});
+		}
+	};
+	useEffect(() => {
+		console.log(searchParams.keys('filter'), '=====useEffect=====1');
+	}, [searchParams]);
 	return (
 		<div style={{ display: 'flex' }}>
 			<nav
@@ -14,22 +26,32 @@ const Invoices = () => {
 					padding: '1rem',
 				}}
 			>
-				<div className="red">hahha</div>
-				{invoices.map(invoice => (
-					<NavLink
-						style={({ isActive }) => {
-							return {
-								display: 'block',
-								margin: '1rem 0',
-								color: isActive ? 'red' : '',
-							};
-						}}
-						to={`${invoice.number}`}
-						key={invoice.number}
-					>
-						{invoice.name}
-					</NavLink>
-				))}
+				<input
+					value={searchParams.get('filter') || ''}
+					onChange={e => changeHandler(e)}
+				/>
+				{invoices
+					.filter(invoice => {
+						let filter = searchParams.get('filter');
+						if (!filter) return true;
+						let name = invoice.name.toLowerCase();
+						return name.startsWith(filter.toLowerCase());
+					})
+					.map(invoice => (
+						<NavLink
+							style={({ isActive }) => {
+								return {
+									display: 'block',
+									margin: '1rem 0',
+									color: isActive ? 'red' : '',
+								};
+							}}
+							to={`${invoice.number}`}
+							key={invoice.number}
+						>
+							{invoice.name}
+						</NavLink>
+					))}
 			</nav>
 			<Outlet />
 		</div>
