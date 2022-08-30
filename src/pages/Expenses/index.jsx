@@ -7,13 +7,14 @@ const Expenses = () => {
 		return store.count;
 	});
 	const A = useMemo(() => {
+		console.log(count === 1, count);
 		return (
 			<>
-				<div>haha</div>
+				<div>{count}</div>
 			</>
 		);
 	}, [count === 1]);
-	console.log(A)
+	console.log(A);
 	return (
 		<main style={{ padding: '1rem 0' }}>
 			<h2>Expenses</h2>
