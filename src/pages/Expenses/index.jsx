@@ -2,6 +2,10 @@ import React, { useCallback, useMemo } from 'react';
 import Count from '../../components/Count';
 import Child from '../../components/Child';
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { B } from '../../components/ClassB';
+
 const Expenses = () => {
 	const count = useSelector(store => {
 		return store.count;
@@ -14,7 +18,10 @@ const Expenses = () => {
 			</>
 		);
 	}, [count === 1]);
-	console.log(A);
+	useEffect(() => {
+	const b = new B();
+		console.log(b);
+	}, []);
 	return (
 		<main style={{ padding: '1rem 0' }}>
 			<h2>Expenses</h2>
