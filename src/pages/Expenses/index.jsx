@@ -17,11 +17,29 @@ const Expenses = () => {
 				<div>{count}</div>
 			</>
 		);
-	}, [count === 1]);
+	}, [count]);
 	useEffect(() => {
-	const b = new B();
+		const b = new B();
 		console.log(b);
 	}, []);
+	// let [changeState, setChangeState] = useState(0);
+	// const fn = useCallback(
+	// 	function () {
+	// 		setInterval(function () {
+	// 			setChangeState(changeState++);
+	// 			// ? i 打印数值应该是什么
+	// 			console.log(changeState,"===");
+	// 		}, 1000);
+	// 	},
+	// 	[changeState]
+	// );
+	// useEffect(() => {
+	// 	fn();
+	// }, []);
+	// useEffect(() => {
+	// 	// setChangeState(changeState+1);
+	// 	console.log(changeState,"----")
+	// }, [changeState]);
 	return (
 		<main style={{ padding: '1rem 0' }}>
 			<h2>Expenses</h2>
