@@ -1,0 +1,26 @@
+
+.search-input{
+	display: flex;
+	margin: 20px;
+}
+.search-btn{
+	width: 90px;
+	height: 30px;
+	cursor: pointer;
+}
+.content{
+	height: 200px;
+	width: 700px;
+	background-color: azure;
+	padding: 10px 10px 0 10px;
+	overflow: auto;
+}
+.search-warp{
+	margin-bottom: 10px;
+}
+.content .content-item-title{
+	font-size: 15px;
+	font-weight: 800;
+	line-height: 30px;
+	height: 30px;
+}
